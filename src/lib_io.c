@@ -60,6 +60,7 @@ static IOFileUD *io_tofile(lua_State *L)
   return iof;
 }
 
+// stdfile 指的是 STDIN 这一类，直接传 fd
 static FILE *io_stdfile(lua_State *L, ptrdiff_t id)
 {
   IOFileUD *iof = IOSTDF_IOF(L, id);
@@ -237,11 +238,14 @@ static int io_file_write(lua_State *L, FILE *fp, int start)
   int status = 1;
   for (tv = L->base+start; tv < L->top; tv++) {
     MSize len;
+    // 把 str/num 类型的参数转换成字符串以写入
     const char *p = lj_strfmt_wstrnum(L, tv, &len);
     if (!p)
       lj_err_argt(L, (int)(tv - L->base) + 1, LUA_TSTRING);
     status = status && (fwrite(p, 1, len, fp) == len);
   }
+  // 如果编译时指定 52 COMPAT，则return file handle instead of true
+  // 不知为何不处理成 #if ... 形式
   if (LJ_52 && status) {
     L->top = L->base+1;
     if (start == 0)

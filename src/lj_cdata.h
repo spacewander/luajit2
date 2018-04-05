@@ -35,6 +35,7 @@ static LJ_AINLINE void cdata_setptr(void *p, CTSize sz, const void *v)
 }
 
 /* Allocate fixed-size C data object. */
+// 分配 sz 大小的内存，然后把 typeid 赋给该类型。最基本的 cdata 分配函数。
 static LJ_AINLINE GCcdata *lj_cdata_new(CTState *cts, CTypeID id, CTSize sz)
 {
   GCcdata *cd;

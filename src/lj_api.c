@@ -1124,6 +1124,7 @@ LUA_API int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc)
   } else {
     cTValue *o = stkindex2adr(L, errfunc);
     api_checkvalidindex(L, o);
+    // LuaJIT fully resumable 的秘诀？
     ef = savestack(L, o);
   }
   status = lj_vm_pcall(L, api_call_base(L, nargs), nresults+1, ef);

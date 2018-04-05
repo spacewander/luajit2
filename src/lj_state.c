@@ -269,6 +269,7 @@ LUA_API void lua_close(lua_State *L)
   close_state(L);
 }
 
+// 每个 thread 都有自己的 lua_State
 lua_State *lj_state_new(lua_State *L)
 {
   lua_State *L1 = lj_mem_newobj(L, lua_State);

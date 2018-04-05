@@ -54,6 +54,7 @@ LJ_NORET LJ_NOINLINE static void clib_error_(lua_State *L)
 #define CLIB_SOEXT	"%s.so"
 #endif
 
+// 补全动态链接库的名字
 static const char *clib_extname(lua_State *L, const char *name)
 {
   if (!strchr(name, '/')
@@ -326,6 +327,7 @@ static const char *clib_extsym(CTState *cts, CType *ct, GCstr *name)
 }
 
 /* Index a C library by name. */
+// ffi.LIB.xxx 会触发这个函数
 TValue *lj_clib_index(lua_State *L, CLibrary *cl, GCstr *name)
 {
   TValue *tv = lj_tab_setstr(L, cl->cache, name);
@@ -369,6 +371,7 @@ TValue *lj_clib_index(lua_State *L, CLibrary *cl, GCstr *name)
 #if LJ_TARGET_WINDOWS
       SetLastError(oldwerr);
 #endif
+      // 只要不是 constant，都会在这里创建对应的 cdata
       cd = lj_cdata_new(cts, id, CTSIZE_PTR);
       *(void **)cdataptr(cd) = p;
       setcdataV(L, tv, cd);
@@ -396,6 +399,7 @@ static CLibrary *clib_new(lua_State *L, GCtab *mt)
 /* Load a C library. */
 void lj_clib_load(lua_State *L, GCtab *mt, GCstr *name, int global)
 {
+  // 基本上就是 dlopen
   void *handle = clib_loadlib(L, strdata(name), global);
   CLibrary *cl = clib_new(L, mt);
   cl->handle = handle;

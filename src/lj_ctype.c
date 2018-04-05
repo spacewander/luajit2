@@ -221,6 +221,7 @@ void lj_ctype_addname(CTState *cts, CType *ct, CTypeID id)
 }
 
 /* Get a C type by name, matching the type mask. */
+// 从 cdef 中获取对应的 ctype id
 CTypeID lj_ctype_getname(CTState *cts, CType **ctp, GCstr *name, uint32_t tmask)
 {
   CTypeID id = cts->hash[ct_hashname(name)];

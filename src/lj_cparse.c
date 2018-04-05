@@ -406,6 +406,7 @@ static int cp_istypedecl(CPState *cp)
 {
   if (cp->tok >= CTOK_FIRSTDECL && cp->tok <= CTOK_LASTDECL) return 1;
   if (cp->tok == CTOK_IDENT && ctype_istypedef(cp->ct->info)) return 1;
+  // '$' 是保留给以后用的，见上面的注释
   if (cp->tok == '$') return 1;
   return 0;
 }

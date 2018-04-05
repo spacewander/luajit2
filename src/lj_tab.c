@@ -534,6 +534,7 @@ TValue *lj_tab_setstr(lua_State *L, GCtab *t, GCstr *key)
   return lj_tab_newkey(L, t, &k);
 }
 
+// 返回一个对象，可以通过修改该对象的值来插入
 TValue *lj_tab_set(lua_State *L, GCtab *t, cTValue *key)
 {
   Node *n;
@@ -583,6 +584,7 @@ static uint32_t keyindex(lua_State *L, GCtab *t, cTValue *key)
     Node *n = hashkey(t, key);
     do {
       if (lj_obj_equal(&n->key, key))
+    // 通过这种方式得到一个整数坐标，有趣
 	return t->asize + (uint32_t)(n - noderef(t->node));
 	/* Hash key indexes: [t->asize..t->asize+t->nmask] */
     } while ((n = nextnode(n)));
@@ -605,6 +607,7 @@ int lj_tab_next(lua_State *L, GCtab *t, TValue *key)
       return 1;
     }
   for (i -= t->asize; i <= t->hmask; i++) {  /* Then traverse the hash keys. */
+    // Hash 节点间以单链表相连
     Node *n = &noderef(t->node)[i];
     if (!tvisnil(&n->val)) {
       copyTV(L, key, &n->key);
@@ -617,6 +620,7 @@ int lj_tab_next(lua_State *L, GCtab *t, TValue *key)
 
 /* -- Table length calculation -------------------------------------------- */
 
+// LuaJIT 的 #ary 是 o(logn) 的
 static MSize unbound_search(GCtab *t, MSize j)
 {
   cTValue *tv;

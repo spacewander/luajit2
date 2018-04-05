@@ -308,6 +308,8 @@ LJLIB_ASM(tonumber)		LJLIB_REC(.)
 
 LJLIB_ASM(tostring)		LJLIB_REC(.)
 {
+  // tostring 比判断是否 type 为 string 然后 tostring 要慢，估计是因为多个
+  // metatable 的 lookup
   TValue *o = lj_lib_checkany(L, 1);
   cTValue *mo;
   L->top = o+1;  /* Only keep one argument. */
@@ -429,6 +431,7 @@ LJLIB_CF(dofile)
 
 LJLIB_CF(gcinfo)
 {
+  // 相当于 collectgarbage('count')
   setintV(L->top++, (int32_t)(G(L)->gc.total >> 10));
   return 1;
 }

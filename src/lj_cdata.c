@@ -137,6 +137,7 @@ collect_attrib:
     volatile
 #endif
     lua_Number n = numV(key);
+    // 如果不支持 LJ_64，这里会有overflow
     idx = LJ_64 ? (ptrdiff_t)n : (ptrdiff_t)lj_num2int(n);
   integer_key:
     if (ctype_ispointer(ct->info)) {

@@ -537,6 +537,7 @@ LJLIB_CF(ffi_cast)	LJLIB_REC(ffi_new)
   if (!(ctype_isnum(d->info) || ctype_isptr(d->info) || ctype_isenum(d->info)))
     lj_err_arg(L, 1, LJ_ERR_FFI_INVTYPE);
   if (!(tviscdata(o) && cdataV(o)->ctypeid == id)) {
+    // ffi.cast 也会分配内存
     GCcdata *cd = lj_cdata_new(cts, id, d->size);
     lj_cconv_ct_tv(cts, d, cdataptr(cd), o, CCF_CAST);
     setcdataV(L, o, cd);
@@ -550,6 +551,7 @@ LJLIB_CF(ffi_typeof)	LJLIB_REC(.)
   CTState *cts = ctype_cts(L);
   CTypeID id = ffi_checkctype(L, cts, L->base+1);
   GCcdata *cd = lj_cdata_new(cts, CTID_CTYPEID, 4);
+  // 返回一个 cdata，你可以把它当整数使用
   *(CTypeID *)cdataptr(cd) = id;
   setcdataV(L, L->top-1, cd);
   lj_gc_check(L);

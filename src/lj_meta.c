@@ -44,6 +44,9 @@ void lj_meta_init(lua_State *L)
 }
 
 /* Negative caching of a few fast metamethods. See the lj_meta_fast() macro. */
+// negative cache is a cache that also stores "negative" responses
+// a few fast metamethods => 
+//      _(index) _(newindex) _(gc) _(mode) _(eq) _(len)
 cTValue *lj_meta_cache(GCtab *mt, MMS mm, GCstr *name)
 {
   cTValue *mo = lj_tab_getstr(mt, name);

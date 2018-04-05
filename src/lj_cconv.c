@@ -584,6 +584,7 @@ void lj_cconv_ct_tv(CTState *cts, CType *d,
       memcpy(dp, strdata(str), sz);
       return;
     } else {  /* Otherwise pass it as a const char[]. */
+      // 这种 const char 以 \0 结尾
       sp = (uint8_t *)strdata(str);
       sid = CTID_A_CCHAR;
       flags |= CCF_FROMTV;

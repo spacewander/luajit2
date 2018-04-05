@@ -71,6 +71,7 @@ static LJ_AINLINE int str_fastcmp(const char *a, const char *b, MSize len)
 #endif
 
 /* Find fixed string p inside string s. */
+// 没有搞什么黑魔法嘛
 const char *lj_str_find(const char *s, const char *p, MSize slen, MSize plen)
 {
   if (plen <= slen) {
@@ -223,6 +224,7 @@ GCstr *lj_str_new(lua_State *L, const char *str, size_t lenx)
   s->len = len;
   s->hash = h;
   s->reserved = 0;
+  // s 的数据分配在 GCstr 后面，且以 \0 结尾，所以实际上用到的是 len+1
   memcpy(strdatawr(s), str, len);
   strdatawr(s)[len] = '\0';  /* Zero-terminate string. */
   /* Add it to string hash table. */
