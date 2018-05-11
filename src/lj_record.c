@@ -2289,6 +2289,7 @@ void lj_record_ins(jit_State *J)
   /* -- Table ops --------------------------------------------------------- */
 
   case BC_GGET: case BC_GSET:
+    // get/set _G
     settabV(J->L, &ix.tabv, tabref(J->fn->l.env));
     ix.tab = emitir(IRT(IR_FLOAD, IRT_TAB), getcurrf(J), IRFL_FUNC_ENV);
     ix.idxchain = LJ_MAX_IDXCHAIN;
@@ -2303,11 +2304,13 @@ void lj_record_ins(jit_State *J)
     ix.idxchain = LJ_MAX_IDXCHAIN;
     rc = lj_record_idx(J, &ix);
     break;
+  // rawgeti/rawseti
   case BC_TGETR: case BC_TSETR:
     ix.idxchain = 0;
     rc = lj_record_idx(J, &ix);
     break;
 
+  // 并行赋值
   case BC_TSETM:
     rec_tsetm(J, ra, (BCReg)(J->L->top - J->L->base), (int32_t)rcv->u32.lo);
     break;
@@ -2410,6 +2413,7 @@ void lj_record_ins(jit_State *J)
   case BC_ILOOP:
   case BC_IFUNCF:
   case BC_IFUNCV:
+    // I 打头的字节码专为 interrupter 所属，是 blacklist 的一部分
     lj_trace_err(J, LJ_TRERR_BLACKL);
     break;
 

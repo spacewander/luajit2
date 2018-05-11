@@ -436,6 +436,15 @@ local function dumpcallargs(tr, ins)
 end
 
 -- Dump IR and interleaved snapshots.
+--[[
+---- TRACE 15 IR
+0001 >  nil SLOAD  #3    T
+0002 >  tab TNEW   #0    #0  
+0003 >  str SLOAD  #1    T
+0004    int FLOAD  0003  str.len
+0005 >  int LE     0004  +2147483646
+0006 >  int GE     0004  +1
+]]
 local function dump_ir(tr, dumpsnap, dumpreg)
   local info = traceinfo(tr)
   if not info then return end

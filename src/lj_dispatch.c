@@ -84,9 +84,11 @@ void lj_dispatch_init(GG_State *GG)
 void lj_dispatch_init_hotcount(global_State *g)
 {
   int32_t hotloop = G2J(g)->param[JIT_P_hotloop];
+  // hotloop counter, init value: hotloop(64) * hotcount_step(2) - 1
   HotCount start = (HotCount)(hotloop*HOTCOUNT_LOOP - 1);
   HotCount *hotcount = G2GG(g)->hotcount;
   uint32_t i;
+  // HOTCOUNT_SIZE = 64
   for (i = 0; i < HOTCOUNT_SIZE; i++)
     hotcount[i] = start;
 }

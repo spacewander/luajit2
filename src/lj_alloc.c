@@ -1324,6 +1324,7 @@ static LJ_NOINLINE void *lj_alloc_malloc(void *msp, size_t nsize)
       return mem;
     }
   }
+  // MAX_SMALL_REQUEST ~ MAX_REQUEST
 
   if (nb <= ms->dvsize) {
     size_t rsize = ms->dvsize - nb;

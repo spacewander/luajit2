@@ -85,6 +85,7 @@ LJLIB_CF(table_insert)		LJLIB_REC(.)
     if (nargs != 3*sizeof(TValue))
       lj_err_caller(L, LJ_ERR_TABINS);
     /* NOBARRIER: This just moves existing elements around. */
+    // insert 操作总是需要有一个 lj_tab_len 的消耗
     for (n = lj_lib_checkint(L, 2); i > n; i--) {
       /* The set may invalidate the get pointer, so need to do it first! */
       TValue *dst = lj_tab_setint(L, t, i);

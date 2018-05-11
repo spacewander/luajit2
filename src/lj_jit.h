@@ -96,6 +96,9 @@
 #endif
 
 /* Optimization parameters and their defaults. Length is a char in octal! */
+//require "jit.opt".start("minstitch=2", "maxtrace=40000",
+                        //"maxrecord=8000", "sizemcode=128",
+                        //"maxmcode=40000", "maxirconst=1000")
 #define JIT_PARAMDEF(_) \
   _(\010, maxtrace,	8000)	/* Max. # of traces in cache. */ \
   _(\011, maxrecord,	16000)	/* Max. # of recorded IR instructions. */ \

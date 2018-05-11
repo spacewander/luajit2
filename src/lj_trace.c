@@ -704,6 +704,7 @@ static TValue *trace_state(lua_State *L, lua_CFunction dummy, void *ud)
     default:  /* Trace aborted asynchronously. */
       setintV(L->top++, (int32_t)LJ_TRERR_RECERR);
       /* fallthrough */
+    // 居然有一个 case 在 default 下面
     case LJ_TRACE_ERR:
       trace_pendpatch(J, 1);
       if (trace_abort(J))

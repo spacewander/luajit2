@@ -68,6 +68,7 @@
 ** B = unsigned byte literal
 ** M = multiple args/results
 */
+// (name, A, B(optional), C(if B)/D, metamethod)
 #define BCDEF(_) \
   /* Comparison ops. ORDER OPR. */ \
   _(ISLT,	var,	___,	var,	lt) \
